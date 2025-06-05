@@ -6,7 +6,14 @@ import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -47,6 +54,7 @@ public class TowerServiceImpl {
             towerCreationTimer.record(() -> {
                 //Perform the tower creation / setup action
                 LOG.info("Tower request id created: " + UUID.randomUUID());
+//                LOG.info("Tower subsidiary request status: " + checkSubsidiaryAndCreateDefault());
             });
         } finally {
             towerCreatedCounter.increment();
@@ -54,4 +62,19 @@ public class TowerServiceImpl {
             LOG.info("Tower request submitted");
         }
     }
+
+//    public boolean checkSubsidiaryAndCreateDefault()
+//    {
+//        String host = "http://localhost:8080";
+//        String apiEndpoint = "/subsidiary/submit";
+//        //Setup the API call
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+//        HttpEntity<String> entity = new HttpEntity<String>(headers);
+//        LOG.info("Tower Subsidiary API being used @ " + host + apiEndpoint);
+//
+//        //Execute the API call and return its availability status
+//        return new RestTemplate().exchange(host + apiEndpoint, HttpMethod.GET, entity, String.class).getStatusCode().is2xxSuccessful();
+//    }
+
 }
